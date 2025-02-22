@@ -54,3 +54,30 @@ export const createImage = createAsyncThunk<void, ImageMutation, { state: RootSt
     }
   }
 );
+
+
+export const deleteImage = createAsyncThunk<
+  void,
+  string,
+  { state: RootState }
+>(
+  'images/deleteImage', async (imageId, {getState}) => {
+    const token = getState().users.user?.token;
+
+    if (!token) {
+      console.error("No token found");
+      return;
+    }
+
+
+    try {
+      await axiosApi.delete(`/images/${imageId}`, {
+        headers: {
+          Authorization: token,
+        },
+      });
+    } catch (e) {
+      console.error("Error deleting cocktail:", e);
+    }
+  }
+);

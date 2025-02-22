@@ -22,7 +22,7 @@ const run = async () => {
             password: "123",
             token: randomUUID(),
             avatar: 'fixtures/painter_1.jpeg',
-            role: 'user',
+            role: 'admin',
         },
         {
             email: "test1@gmail.com",

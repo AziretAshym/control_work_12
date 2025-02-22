@@ -1,8 +1,11 @@
 import { User } from '../../../types';
 import React from 'react';
 import { apiUrl } from '../../../globalConstants.ts';
-import { Avatar, Card, CardContent, CardHeader, CardMedia, Typography } from '@mui/material';
+import { Avatar, Card, CardContent, CardHeader, CardMedia, IconButton, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { deleteImage, fetchImages } from '../imagesThunks.ts';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks.ts';
+import { Delete } from '@mui/icons-material';
 
 interface Props {
   _id: string;
@@ -12,8 +15,25 @@ interface Props {
 }
 
 const OneImage: React.FC<Props> = ({ _id, title, image, user }) => {
+  const dispatch = useAppDispatch();
+  const currentUser = useAppSelector((state) => state.users.user);
+  const loading = useAppSelector((state) => state.images.loading);
+
   const cardImage = image ? `${apiUrl}/${image}` : '';
   const authorAvatar = user.avatar ? `${apiUrl}/${user.avatar}` : '';
+
+  const handleDelete = async () => {
+    try {
+      if (currentUser && (currentUser.role === 'admin')) {
+        await dispatch(deleteImage(_id));
+        await dispatch(fetchImages());
+      } else {
+        console.error("You can not delete this image!");
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   return (
     <Card
@@ -42,7 +62,7 @@ const OneImage: React.FC<Props> = ({ _id, title, image, user }) => {
           </Typography>
         }
       />
-      <CardContent>
+      <CardContent sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
         <Avatar
           src={authorAvatar}
           alt={user.displayName}
@@ -51,6 +71,18 @@ const OneImage: React.FC<Props> = ({ _id, title, image, user }) => {
         <Link to={`/images-by-author/${user._id}`} style={{ textDecoration: 'none' }}>
           {user.displayName}
         </Link>
+        {(currentUser && (currentUser.role === 'admin')) && (
+          <IconButton
+            sx={{
+              backgroundColor: "error.main",
+              color: "#fff",
+            }}
+            onClick={handleDelete}
+            disabled={loading}
+          >
+            <Delete />
+          </IconButton>
+        )}
       </CardContent>
     </Card>
   );

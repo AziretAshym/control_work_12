@@ -11,7 +11,7 @@ interface Props {
   user: User;
 }
 
-const UserMenu: React.FC<Props> = ({user}) => {
+const UserMenu: React.FC<Props> = ({ user }) => {
   const dispatch = useAppDispatch();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const navigate = useNavigate();
@@ -22,29 +22,24 @@ const UserMenu: React.FC<Props> = ({user}) => {
 
   const handleClose = () => {
     setAnchorEl(null);
-  }
+  };
 
   const handleLogOut = () => {
     dispatch(logout());
     dispatch(unsetUser());
     navigate('/login');
-  }
-
+  };
 
   const userAvatar = user.avatar ? `${apiUrl}/${user.avatar}` : "";
 
-
   return (
     <>
-      <Typography variant="h3" component={NavLink} to="/" sx={{textDecoration: 'none', color: 'inherit'}}>
+      <Typography variant="h3" component={NavLink} to="/" sx={{ textDecoration: 'none', color: 'inherit' }}>
         SSS
       </Typography>
       <Box display={"flex"} alignItems={"center"} gap={"10px"}>
         <Avatar alt={user.displayName} src={userAvatar} />
-        <Button
-          onClick={handleClick}
-          color="inherit"
-        >
+        <Button onClick={handleClick} color="inherit">
           {user.displayName}
         </Button>
         <Menu
@@ -59,7 +54,15 @@ const UserMenu: React.FC<Props> = ({user}) => {
               setAnchorEl(null);
             }}
           >
-            Add new album
+            Add new image
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
+              navigate(`/images-by-author/${user._id}`);
+              setAnchorEl(null);
+            }}
+          >
+            My images
           </MenuItem>
           <MenuItem onClick={handleLogOut}>Log out</MenuItem>
         </Menu>

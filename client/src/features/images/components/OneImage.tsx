@@ -2,6 +2,7 @@ import { User } from '../../../types';
 import React from 'react';
 import { apiUrl } from '../../../globalConstants.ts';
 import { Avatar, Card, CardContent, CardHeader, CardMedia, Typography } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 interface Props {
   _id: string;
@@ -47,9 +48,9 @@ const OneImage: React.FC<Props> = ({ _id, title, image, user }) => {
           alt={user.displayName}
           sx={{ width: 56, height: 56, mx: "auto", mb: 1 }}
         />
-        <Typography sx={{ textAlign: "center", fontWeight: 500 }}>
+        <Link to={`/images-by-author/${user._id}`} style={{ textDecoration: 'none' }}>
           {user.displayName}
-        </Typography>
+        </Link>
       </CardContent>
     </Card>
   );

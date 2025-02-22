@@ -1,10 +1,11 @@
-import AppToolbar from "./components/Toolbar/Toolbar.tsx";
-import { Container, CssBaseline, Typography } from "@mui/material";
-import { Route, Routes } from "react-router-dom";
+import AppToolbar from './components/Toolbar/Toolbar.tsx';
+import { Container, CssBaseline, Typography } from '@mui/material';
+import { Route, Routes } from 'react-router-dom';
 import RegisterPage from './features/users/containers/RegisterPage.tsx';
 import LoginPage from './features/users/containers/LoginPage.tsx';
 import Images from './features/images/containers/Images.tsx';
 import ImageForm from './features/images/components/ImageForm.tsx';
+import ImagesByUser from './features/images/containers/ImagesByUser.tsx';
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Images />} />
             <Route path="/add-new-image" element={<ImageForm />} />
+            <Route path="/images-by-author/:userId" element={<ImagesByUser />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/*" element={<Typography variant={"h3"} textAlign="center">Not Found</Typography>} />

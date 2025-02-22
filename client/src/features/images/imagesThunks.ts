@@ -11,6 +11,18 @@ export const fetchImages = createAsyncThunk<Image[], void, { state: RootState }>
   }
 );
 
+export const fetchImagesByAuthor = createAsyncThunk(
+  'images/fetchImagesByAuthor',
+  async (userId: string) => {
+    try {
+      const response = await axiosApi.get(`/images?user_id=${userId}`);
+      return response.data;
+    } catch (e) {
+      console.error(e);
+    }
+  }
+);
+
 export const createImage = createAsyncThunk<void, ImageMutation, { state: RootState }>(
   "images/createImage",
   async (imageMutation, { getState }) => {

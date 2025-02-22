@@ -1,18 +1,26 @@
-import { useAppDispatch, useAppSelector } from '../../../app/hooks.ts';
-import { Image } from '../../../types';
-import { useEffect } from 'react';
-import { fetchImages } from '../imagesThunks.ts';
-import { Box, Typography, CircularProgress } from '@mui/material';
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { Box, CircularProgress, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid2';
+import { RootState } from '../../../app/store.ts';
+import { fetchImagesByAuthor } from '../imagesThunks.ts';
 import OneImage from '../components/OneImage.tsx';
+import { useAppDispatch } from '../../../app/hooks.ts';
+import { Image } from '../../../types';
 
-const Images = () => {
+const ImagesByUser: React.FC = () => {
+  const { userId } = useParams<{ userId: string }>();
+
   const dispatch = useAppDispatch();
-  const { images, loading } = useAppSelector((state) => state.images);
+  const { images, loading } = useSelector((state: RootState) => state.images);
 
   useEffect(() => {
-    dispatch(fetchImages());
-  }, [dispatch]);
+    if (userId) {
+      dispatch(fetchImagesByAuthor(userId));
+    }
+  }, [dispatch, userId]);
+
 
   return (
     <>
@@ -46,4 +54,4 @@ const Images = () => {
   );
 };
 
-export default Images;
+export default ImagesByUser;

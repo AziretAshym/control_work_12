@@ -10,8 +10,8 @@ import {
   REHYDRATE,
   persistStore,
 } from "redux-persist";
-import { usersReducer } from '../features/users/usersSlice.ts';
-import { imagesReducer } from '../features/images/imagesSlice.ts';
+import { usersReducer } from "../features/users/usersSlice.ts";
+import { imagesReducer } from "../features/images/imagesSlice.ts";
 
 const usersPersistConfig = {
   key: "store:users",

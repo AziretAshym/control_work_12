@@ -20,8 +20,8 @@ usersRouter.post("/google", async (req, res, next) => {
 
     if (!payload) {
       res
-          .status(400)
-          .send({ error: "Invalid credentials. Google login error." });
+        .status(400)
+        .send({ error: "Invalid credentials. Google login error." });
       return;
     }
 
@@ -57,35 +57,35 @@ usersRouter.post("/google", async (req, res, next) => {
 });
 
 usersRouter.post(
-    "/register",
-    imagesUpload.single("avatar"),
-    async (req, res, next) => {
-      const existingUser = await User.findOne({ email: req.body.email });
+  "/register",
+  imagesUpload.single("avatar"),
+  async (req, res, next) => {
+    const existingUser = await User.findOne({ email: req.body.email });
 
-      if (existingUser) {
-        res.status(400).send({ error: "User with this email already exists" });
+    if (existingUser) {
+      res.status(400).send({ error: "User with this email already exists" });
+      return;
+    }
+
+    const user = new User({
+      email: req.body.email,
+      password: req.body.password,
+      displayName: req.body.displayName,
+      avatar: req.file ? `images/${req.file.filename}` : undefined,
+    });
+
+    try {
+      user.generateToken();
+      await user.save();
+      res.send({ user, message: "User registered successfully" });
+    } catch (error) {
+      if (error instanceof mongoose.Error.ValidationError) {
+        res.status(400).send(error);
         return;
       }
-
-      const user = new User({
-        email: req.body.email,
-        password: req.body.password,
-        displayName: req.body.displayName,
-        avatar: req.file ? `images/${req.file.filename}` : undefined,
-      });
-
-      try {
-        user.generateToken();
-        await user.save();
-        res.send({ user, message: "User registered successfully" });
-      } catch (error) {
-        if (error instanceof mongoose.Error.ValidationError) {
-          res.status(400).send(error);
-          return;
-        }
-        next(error);
-      }
-    },
+      next(error);
+    }
+  },
 );
 
 usersRouter.post("/session", async (req, res, next) => {

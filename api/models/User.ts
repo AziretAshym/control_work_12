@@ -16,7 +16,6 @@ const SALT_WORK_FACTOR = 10;
 
 const regEmail = /^(\w+[-.]?\w+)@(\w+)([.-]?\w+)?(\.[a-zA-Z]{2,3})$/;
 
-
 const UserSchema = new Schema<
   HydratedDocument<UserFields>,
   UserModel,
@@ -28,21 +27,27 @@ const UserSchema = new Schema<
     unique: true,
     validate: [
       {
-        validator: async function (this: HydratedDocument<UserFields>, value: string): Promise<boolean> {
-          if (!this.isModified('email')) return true;
-          const user: UserFields | null = await User.findOne({email: value});
+        validator: async function (
+          this: HydratedDocument<UserFields>,
+          value: string,
+        ): Promise<boolean> {
+          if (!this.isModified("email")) return true;
+          const user: UserFields | null = await User.findOne({ email: value });
           return !user;
         },
         message: "This email is already taken",
       },
       {
-        validator: async function (this: HydratedDocument<UserFields>, value: string): Promise<boolean> {
-          if (!this.isModified('email')) return true;
+        validator: async function (
+          this: HydratedDocument<UserFields>,
+          value: string,
+        ): Promise<boolean> {
+          if (!this.isModified("email")) return true;
           return regEmail.test(value);
         },
         message: "Invalid email format",
-      }
-    ]
+      },
+    ],
   },
   role: {
     type: String,

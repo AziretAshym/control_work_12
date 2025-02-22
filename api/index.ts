@@ -13,17 +13,17 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
 
-app.use('/users', usersRouter);
-app.use('/images', imagesRouter);
+app.use("/users", usersRouter);
+app.use("/images", imagesRouter);
 
 const run = async () => {
-    await mongoose.connect(config.db);
-    app.listen(port, () => {
-        console.log(`Server started on port http://localhost:${port}`);
-    });
-    process.on("exit", () => {
-        MongoDb.disconnect();
-    });
+  await mongoose.connect(config.db);
+  app.listen(port, () => {
+    console.log(`Server started on port http://localhost:${port}`);
+  });
+  process.on("exit", () => {
+    MongoDb.disconnect();
+  });
 };
 
 run().catch((e) => console.error(e));

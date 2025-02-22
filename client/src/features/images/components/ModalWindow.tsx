@@ -1,8 +1,14 @@
-import React from 'react';
-import { Image } from '../../../types';
-import { Modal, Box, IconButton, CircularProgress, CardMedia } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
-import { apiUrl } from '../../../globalConstants';
+import React from "react";
+import { Image } from "../../../types";
+import {
+  Modal,
+  Box,
+  IconButton,
+  CircularProgress,
+  CardMedia,
+} from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+import { apiUrl } from "../../../globalConstants";
 
 interface Props {
   open: boolean;
@@ -17,16 +23,16 @@ const ModalWindow: React.FC<Props> = ({ open, onClose, image, loading }) => {
       <Modal
         open={open}
         onClose={onClose}
-        sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+        sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
       >
-        <Box sx={{ position: 'relative', outline: 'none' }}>
+        <Box sx={{ position: "relative", outline: "none" }}>
           <IconButton
             sx={{
-              position: 'absolute',
+              position: "absolute",
               top: 10,
               right: 10,
-              color: '#fff',
-              zIndex: 1
+              color: "#fff",
+              zIndex: 1,
             }}
             onClick={onClose}
           >
@@ -37,9 +43,9 @@ const ModalWindow: React.FC<Props> = ({ open, onClose, image, loading }) => {
           ) : (
             <CardMedia
               component="img"
-              image={image ? `${apiUrl}/${image.image}` : ''}
+              image={image ? `${apiUrl}/${image.image}` : ""}
               alt={image?.title}
-              sx={{ maxHeight: '600px', maxWidth: '950px', borderRadius: 4 }}
+              sx={{ maxHeight: "600px", maxWidth: "950px", borderRadius: 4 }}
             />
           )}
         </Box>

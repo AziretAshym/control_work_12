@@ -1,20 +1,19 @@
-import React, { useState } from 'react';
-import { Box, Button, CircularProgress, TextField } from '@mui/material';
-import { useAppDispatch, useAppSelector } from '../../../app/hooks.ts';
-import { toast } from 'react-toastify';
-import FileInput from '../../../components/FileInput/FileInput.tsx';
-import { ImageMutation } from '../../../types';
-import { useNavigate } from 'react-router-dom';
-import { createImage, fetchImages } from '../imagesThunks.ts';
+import React, { useState } from "react";
+import { Box, Button, CircularProgress, TextField } from "@mui/material";
+import { useAppDispatch, useAppSelector } from "../../../app/hooks.ts";
+import { toast } from "react-toastify";
+import FileInput from "../../../components/FileInput/FileInput.tsx";
+import { ImageMutation } from "../../../types";
+import { useNavigate } from "react-router-dom";
+import { createImage, fetchImages } from "../imagesThunks.ts";
 
 const ImageForm = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { loading } = useAppSelector((state) => state.images);
 
-
   const [form, setForm] = useState({
-    title: '',
+    title: "",
     image: null as File | null,
   });
 
@@ -31,6 +30,16 @@ const ImageForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (!form.title) {
+      toast.warn("Title is required!");
+      return;
+    }
+
+    if (!form.image) {
+      toast.warn("Image is required!");
+      return;
+    }
+
     const artistData: ImageMutation = {
       title: form.title,
       image: form.image ? form.image : null,
@@ -38,10 +47,10 @@ const ImageForm = () => {
 
     try {
       await dispatch(createImage(artistData)).unwrap();
-      toast.success('Image created successfully!');
-      setForm({ title: '', image: null });
+      toast.success("Image created successfully!");
+      setForm({ title: "", image: null });
       await dispatch(fetchImages());
-      navigate('/');
+      navigate("/");
     } catch (e) {
       console.error(e);
     }
@@ -52,11 +61,11 @@ const ImageForm = () => {
       component="form"
       onSubmit={handleSubmit}
       sx={{
-        display: 'flex',
-        flexDirection: 'column',
+        display: "flex",
+        flexDirection: "column",
         gap: 2,
-        width: '500px',
-        marginX: 'auto'
+        width: "500px",
+        marginX: "auto",
       }}
     >
       <TextField
@@ -67,9 +76,18 @@ const ImageForm = () => {
         required
       />
 
-      <FileInput name="image" label="Artist Image" onGetFile={handleFileChange} />
-      <Button type="submit" variant="contained" color="primary" disabled={ loading }>
-        {loading ? <CircularProgress size={24} /> : 'Create Artist'}
+      <FileInput
+        name="image"
+        label="Artist Image"
+        onGetFile={handleFileChange}
+      />
+      <Button
+        type="submit"
+        variant="contained"
+        color="primary"
+        disabled={loading}
+      >
+        {loading ? <CircularProgress size={24} /> : "Create Artist"}
       </Button>
     </Box>
   );

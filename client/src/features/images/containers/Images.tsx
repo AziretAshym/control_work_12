@@ -1,10 +1,10 @@
-import { useAppDispatch, useAppSelector } from '../../../app/hooks.ts';
-import { Image } from '../../../types';
-import { useEffect } from 'react';
-import { fetchImages } from '../imagesThunks.ts';
-import { Box, Typography, CircularProgress } from '@mui/material';
-import Grid from '@mui/material/Grid2';
-import OneImage from '../components/OneImage.tsx';
+import { useAppDispatch, useAppSelector } from "../../../app/hooks.ts";
+import { Image } from "../../../types";
+import { useEffect } from "react";
+import { fetchImages } from "../imagesThunks.ts";
+import { Box, Typography, CircularProgress } from "@mui/material";
+import Grid from "@mui/material/Grid2";
+import OneImage from "../components/OneImage.tsx";
 
 const Images = () => {
   const dispatch = useAppDispatch();
@@ -16,10 +16,10 @@ const Images = () => {
 
   return (
     <>
-      <Typography variant="h4">Gallery</Typography>
+      <Typography variant="h4">Exhibition</Typography>
       <Box sx={{ padding: "20px" }}>
         {loading ? (
-          <CircularProgress sx={{ display: 'block', margin: 'auto' }} />
+          <CircularProgress sx={{ display: "block", margin: "auto" }} />
         ) : images.length === 0 ? (
           <Typography
             variant="h6"

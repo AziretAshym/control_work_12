@@ -12,10 +12,10 @@ import Grid from "@mui/material/Grid2";
 import { NavLink, useNavigate } from "react-router-dom";
 import { LockOpenOutlined } from "@mui/icons-material";
 import { GoogleLogin } from "@react-oauth/google";
-import { useAppDispatch, useAppSelector } from '../../../app/hooks.ts';
-import { selectLoginError } from '../usersSlice.ts';
-import { RegisterMutation } from '../../../types';
-import { googleLogin, login } from '../usersThunks.ts';
+import { useAppDispatch, useAppSelector } from "../../../app/hooks.ts";
+import { selectLoginError } from "../usersSlice.ts";
+import { RegisterMutation } from "../../../types";
+import { googleLogin, login } from "../usersThunks.ts";
 
 const LoginPage = () => {
   const dispatch = useAppDispatch();

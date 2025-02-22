@@ -9,7 +9,7 @@ const config = {
     clientId: process.env.GOOGLE_CLIENT_ID,
     secretId: process.env.GOOGLE_SECRET_ID,
   },
-  db: "mongodb://localhost/test",
+  db: "mongodb://localhost/gallery",
 };
 
 export default config;

@@ -4,7 +4,7 @@ import cors from "cors";
 import config from "./config";
 import MongoDb from "./mongoDb";
 import usersRouter from "./routes/users";
-
+import imagesRouter from "./routes/images";
 
 const app = express();
 const port = 8000;
@@ -14,6 +14,7 @@ app.use(express.json());
 app.use(express.static("public"));
 
 app.use('/users', usersRouter);
+app.use('/images', imagesRouter);
 
 const run = async () => {
     await mongoose.connect(config.db);

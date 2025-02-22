@@ -1,25 +1,39 @@
-import { User } from '../../../types';
-import React from 'react';
+import { User, Image } from '../../../types';
+import React, { useEffect, useState } from 'react';
 import { apiUrl } from '../../../globalConstants.ts';
 import { Avatar, Card, CardContent, CardHeader, CardMedia, IconButton, Typography } from '@mui/material';
-import { Link } from 'react-router-dom';
-import { deleteImage, fetchImages } from '../imagesThunks.ts';
+import { Link, useParams } from 'react-router-dom';
+import { deleteImage, fetchImageById, fetchImages } from '../imagesThunks.ts';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks.ts';
 import { Delete } from '@mui/icons-material';
+import ModalWindow from './ModalWindow.tsx';
 
 interface Props {
   _id: string;
   user: User;
   title: string;
-  image: string | null;
+  image: Image | null;
 }
 
 const OneImage: React.FC<Props> = ({ _id, title, image, user }) => {
+  const { imageId } = useParams();
+
+  const [openModal, setOpenModal] = useState(false);
+
   const dispatch = useAppDispatch();
   const currentUser = useAppSelector((state) => state.users.user);
   const loading = useAppSelector((state) => state.images.loading);
 
-  const cardImage = image ? `${apiUrl}/${image}` : '';
+  useEffect(() => {
+    if (imageId) {
+      dispatch(fetchImageById(imageId));
+    }
+  }, [dispatch, imageId]);
+
+  const handleOpenModal = () => setOpenModal(true);
+  const handleCloseModal = () => setOpenModal(false);
+
+  const cardImage = image ? `${apiUrl}/${image.image}` : '';
   const authorAvatar = user.avatar ? `${apiUrl}/${user.avatar}` : '';
 
   const handleDelete = async () => {
@@ -36,55 +50,71 @@ const OneImage: React.FC<Props> = ({ _id, title, image, user }) => {
   };
 
   return (
-    <Card
-      sx={{
-        width: 350,
-        display: "flex",
-        flexDirection: "column",
-        borderRadius: "16px",
-        boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
-      }}
-      key={_id}
-    >
-      <CardMedia
-        component="img"
-        image={cardImage}
-        title={title}
+    <>
+      <Card
         sx={{
-          height: 270,
-          borderRadius: "16px 16px 0 0",
+          width: 350,
+          display: "flex",
+          flexDirection: "column",
+          borderRadius: "16px",
+          boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
+          cursor: 'pointer'
         }}
-      />
-      <CardHeader
-        title={
-          <Typography variant="h6" sx={{ textAlign: "center", fontWeight: 600 }}>
-            {title}
-          </Typography>
-        }
-      />
-      <CardContent sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-        <Avatar
-          src={authorAvatar}
-          alt={user.displayName}
-          sx={{ width: 56, height: 56, mx: "auto", mb: 1 }}
+        key={_id}
+        onClick={handleOpenModal}
+      >
+        <CardMedia
+          component="img"
+          image={cardImage}
+          title={title}
+          sx={{
+            height: 270,
+            borderRadius: "16px 16px 0 0",
+          }}
         />
-        <Link to={`/images-by-author/${user._id}`} style={{ textDecoration: 'none' }}>
-          {user.displayName}
-        </Link>
-        {(currentUser && (currentUser.role === 'admin')) && (
-          <IconButton
-            sx={{
-              backgroundColor: "error.main",
-              color: "#fff",
-            }}
-            onClick={handleDelete}
-            disabled={loading}
-          >
-            <Delete />
-          </IconButton>
-        )}
-      </CardContent>
-    </Card>
+        <CardHeader
+          title={
+            <Typography variant="h6" sx={{ textAlign: "center", fontWeight: 600 }}>
+              {title}
+            </Typography>
+          }
+        />
+        <CardContent sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center"
+        }}>
+          <Avatar
+            src={authorAvatar}
+            alt={user.displayName}
+            sx={{ width: 56, height: 56, mx: "auto", mb: 1 }}
+          />
+          <Link to={`/images-by-author/${user._id}`} style={{ textDecoration: 'none' }}>
+            {user.displayName}
+          </Link>
+          {(currentUser && (currentUser.role === 'admin')) && (
+            <IconButton
+              sx={{
+                backgroundColor: "error.main",
+                color: "#fff",
+              }}
+              onClick={handleDelete}
+              disabled={loading}
+            >
+              <Delete />
+            </IconButton>
+          )}
+        </CardContent>
+      </Card>
+
+      <ModalWindow
+        open={openModal}
+        onClose={handleCloseModal}
+        image={image}
+        loading={loading}
+      />
+    </>
   );
 };
 

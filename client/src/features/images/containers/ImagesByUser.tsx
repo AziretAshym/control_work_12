@@ -34,7 +34,9 @@ const ImagesByUser: React.FC = () => {
 
   return (
     <>
-      <Typography variant="h4">Paintings by the <strong>{user?.displayName}</strong></Typography>
+      <Typography variant="h4">
+        Paintings by the <strong>{images[0]?.user.displayName}</strong>
+      </Typography>
       <Box sx={{ padding: "20px" }}>
         {loading ? (
           <CircularProgress sx={{ display: 'block', margin: 'auto' }} />
@@ -93,7 +95,7 @@ const ImagesByUser: React.FC = () => {
                       <Link to={`/images-by-author/${image.user._id}`} style={{ textDecoration: 'none' }}>
                         {image.user.displayName}
                       </Link>
-                      {(user && (user._id === image.user._id)) && (
+                      {(user && (user._id === image.user._id || user.role === 'admin')) && (
                         <IconButton
                           sx={{
                             backgroundColor: "error.main",

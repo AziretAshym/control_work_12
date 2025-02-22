@@ -36,7 +36,7 @@ const Images = () => {
                 _id={image._id}
                 user={image.user}
                 title={image.title}
-                image={image.image}
+                image={image}
               />
             ))}
           </Grid>

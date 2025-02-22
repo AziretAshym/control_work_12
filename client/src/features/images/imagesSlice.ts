@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Image } from '../../types';
-import { fetchImages } from './imagesThunks.ts';
+import { createImage, fetchImages } from './imagesThunks.ts';
 
 interface ArtistsState {
   images: Image[];
@@ -31,6 +31,18 @@ const imagesSlice = createSlice({
       .addCase(fetchImages.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || 'Failed to fetch artists';
+      })
+
+      .addCase(createImage.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(createImage.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(createImage.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message || 'Failed to create image';
       })
   },
 });

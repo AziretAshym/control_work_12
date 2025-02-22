@@ -27,7 +27,7 @@ imagesRouter.post('/', imagesUpload.single('image'), auth, async (req, res, next
     const { title } = req.body;
 
     const newImage = new Image({
-        image: req.file ? 'images' + req.file.filename : null,
+        image: req.file ? 'images/' + req.file.filename : null,
         title: title,
         user: reqWithUser.user
     });

@@ -46,3 +46,8 @@ export interface Image {
   title: string;
   image: string;
 }
+
+export interface ImageMutation {
+  title: string;
+  image: File | null;
+}

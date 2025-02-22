@@ -31,12 +31,8 @@ const UserMenu: React.FC<Props> = ({user}) => {
   }
 
 
-  const userAvatar = (() => {
-    if (typeof user.avatar === "string") {
-      return user.avatar.startsWith("images/") ? `${apiUrl}/${user.avatar}` : user.avatar;
-    }
-    return undefined;
-  })();
+  const userAvatar = user.avatar ? `${apiUrl}/${user.avatar}` : "";
+
 
   return (
     <>
@@ -59,36 +55,11 @@ const UserMenu: React.FC<Props> = ({user}) => {
         >
           <MenuItem
             onClick={() => {
-              navigate('/track_history');
-              setAnchorEl(null);
-            }}
-          >
-            Listened tracks history
-          </MenuItem>
-
-          <MenuItem
-            onClick={() => {
-              navigate('/add-new-artist');
-              setAnchorEl(null);
-            }}
-          >
-            Add new artist
-          </MenuItem>
-          <MenuItem
-            onClick={() => {
-              navigate('/add-new-album');
+              navigate('/add-new-image');
               setAnchorEl(null);
             }}
           >
             Add new album
-          </MenuItem>
-          <MenuItem
-            onClick={() => {
-              navigate('/add-new-track');
-              setAnchorEl(null);
-            }}
-          >
-            Add new track
           </MenuItem>
           <MenuItem onClick={handleLogOut}>Log out</MenuItem>
         </Menu>

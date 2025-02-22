@@ -40,3 +40,9 @@ export interface GlobalError {
   error: string;
 }
 
+export interface Image {
+  _id: string;
+  user: User;
+  title: string;
+  image: string;
+}

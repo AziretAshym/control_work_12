@@ -9,12 +9,12 @@ import {
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { useAppDispatch, useAppSelector } from '../../app/hooks.ts';
-import { selectRegisterError } from './usersSlice.ts';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks.ts';
+import { selectRegisterError } from '../usersSlice.ts';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { RegisterMutation } from '../../types';
-import { register } from './usersThunks.ts';
-import FileInput from '../../components/FileInput/FileInput.tsx';
+import { RegisterMutation } from '../../../types';
+import { register } from '../usersThunks.ts';
+import FileInput from '../../../components/FileInput/FileInput.tsx';
 
 const regEmail = /^(\w+[-.]?\w+)@(\w+)([.-]?\w+)?(\.[a-zA-Z]{2,3})$/;
 

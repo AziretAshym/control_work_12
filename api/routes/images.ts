@@ -12,7 +12,7 @@ imagesRouter.get('/', async (req, res, next) => {
 
     try {
         const filter = imageQuery ? { image: imageQuery } : {};
-        const albums = await Image.find(filter);
+        const albums = await Image.find(filter).populate("user", "displayName avatar");
 
         res.send(albums);
     } catch (e) {

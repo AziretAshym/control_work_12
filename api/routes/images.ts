@@ -8,13 +8,30 @@ import mongoose from "mongoose";
 const imagesRouter = express.Router();
 
 imagesRouter.get('/', async (req, res, next) => {
-    const imageQuery = req.query.image_id;
+    const userId = req.query.user_id as string;
 
     try {
-        const filter = imageQuery ? { image: imageQuery } : {};
-        const albums = await Image.find(filter).populate("user", "displayName avatar");
+        const filter = userId ? { user: userId } : {};
+        const images = await Image.find(filter).populate("user", "displayName avatar");
 
-        res.send(albums);
+        res.send(images);
+    } catch (e) {
+        next(e);
+    }
+});
+
+imagesRouter.get('/:id', async (req, res, next) => {
+    const { id } = req.params;
+
+    try {
+        const image = await Image.findById(id).populate("user", "displayName avatar");
+
+        if (!image) {
+            res.status(404).send({ message: 'Image not found' });
+            return;
+        }
+
+        res.send(image);
     } catch (e) {
         next(e);
     }

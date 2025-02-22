@@ -90,12 +90,12 @@ const ImagesByUser: React.FC = () => {
                       backgroundColor: "#1E1E1E",
                       boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.3)",
                     }}
-                    onClick={() => handleOpenModal(image)}
                   >
                     <CardMedia
                       component="img"
                       image={cardImage}
                       title={image.title}
+                      onClick={() => handleOpenModal(image)}
                       sx={{
                         height: 270,
                         borderRadius: "16px 16px 0 0",
